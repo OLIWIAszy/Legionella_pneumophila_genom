@@ -11,22 +11,20 @@ Analiza genomu bakterii Legionella pneumophila, po sekwencjonowaniu wysokoprzepu
 # Dane wejściowe
 conda activate bioinfo 
 
-
-
-BACTERIA_FOLDER="/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/short_reads" 
+BACTERIA_FOLDER="/Legionella_pneumophila/short_reads" 
 SAMPLE_NAME='L7_S252'
 
 
-# Definiowanie ścieżek do folderóœ
-RAW_READS_DIR="$BACTERIA_FOLDER/raw_reads"
-FASTP_DIR="$BACTERIA_FOLDER/fastp"
-UNICYCLER_DIR="$BACTERIA_FOLDER/unicycler/unicycler_${SAMPLE_NAME}"
-REFERENCE_DIR="$BACTERIA_FOLDER/ref_genome_legionella"
-REF_FILE="$REFERENCE_DIR/GCF_001941585.1_ASM194158v1_genomic.fna"
-RAGTAG_DIR="$BACTERIA_FOLDER/ragtag/ragtag_${SAMPLE_NAME}"
-PROKKA_DIR="$BACTERIA_FOLDER/prokka/prokka_${SAMPLE_NAME}"
-QUAST_DIR="$BACTERIA_FOLDER/quast/quast_${SAMPLE_NAME}"
-CHECKM_DIR="$BACTERIA_FOLDER/checkm/checkm_${SAMPLE_NAME}"
+# Definiowanie ścieżek do folderów
+RAW_READS_DIR="${BACTERIA_FOLDER}/raw_reads"
+FASTP_DIR="${BACTERIA_FOLDER}/fastp"
+UNICYCLER_DIR="${BACTERIA_FOLDER}/unicycler/unicycler_${SAMPLE_NAME}"
+REFERENCE_DIR="${BACTERIA_FOLDER}/ref_genome_legionella"
+REF_FILE="${REFERENCE_DIR}/GCF_001941585.1_ASM194158v1_genomic.fna"
+RAGTAG_DIR="${BACTERIA_FOLDER}/ragtag/ragtag_${SAMPLE_NAME}"
+PROKKA_DIR="${BACTERIA_FOLDER}/prokka/prokka_${SAMPLE_NAME}"
+QUAST_DIR="${BACTERIA_FOLDER}/quast/quast_${SAMPLE_NAME}"
+CHECKM_DIR="${BACTERIA_FOLDER}/checkm/checkm_${SAMPLE_NAME}"
 
 
 
@@ -38,23 +36,23 @@ CHECKM_DIR="$BACTERIA_FOLDER/checkm/checkm_${SAMPLE_NAME}"
 
 ```shell
 
-mkdir /media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/short_reads/fastp
+mkdir -p "${FASTP_DIR}"
 
-fastp -i "$RAW_READS_DIR/${SAMPLE_NAME}_R1_001.fastq.gz" \
-      -I "$RAW_READS_DIR/${SAMPLE_NAME}_R2_001.fastq.gz" \
-      -o "$FASTP_DIR/fastp_${SAMPLE_NAME}_R1_001.fastq.gz" \
-      -O "$FASTP_DIR/fastp_${SAMPLE_NAME}_R2_001.fastq.gz" \
-      --json "$FASTP_DIR/${SAMPLE_NAME}_report.json" \
-      --html "$FASTP_DIR/${SAMPLE_NAME}_report.html"
+fastp -i "${RAW_READS_DIR}/${SAMPLE_NAME}_R1_001.fastq.gz" \
+      -I "${RAW_READS_DIR}/${SAMPLE_NAME}_R2_001.fastq.gz" \
+      -o "${FASTP_DIR}/fastp_${SAMPLE_NAME}_R1_001.fastq.gz" \
+      -O "${FASTP_DIR}/fastp_${SAMPLE_NAME}_R2_001.fastq.gz" \
+      --json "${FASTP_DIR}/${SAMPLE_NAME}_report.json" \
+      --html "${FASTP_DIR}/${SAMPLE_NAME}_report.html"
 
 ```
 ### Unicycler składanie genomu
 
 ```shell
 
-unicycler -1 "$FASTP_DIR/fastp_${SAMPLE_NAME}_R1_001.fastq.gz" \
-          -2 "$FASTP_DIR/fastp_${SAMPLE_NAME}_R2_001.fastq.gz" \
-          -o "$UNICYCLER_DIR" \
+unicycler -1 "${FASTP_DIR}/fastp_${SAMPLE_NAME}_R1_001.fastq.gz" \
+          -2 "${FASTP_DIR}/fastp_${SAMPLE_NAME}_R2_001.fastq.gz" \
+          -o "${UNICYCLER_DIR}" \
           --min_fasta_length 1000
 
 ```
@@ -63,11 +61,11 @@ unicycler -1 "$FASTP_DIR/fastp_${SAMPLE_NAME}_R1_001.fastq.gz" \
 
 ```shell
 
-mkdir -p "$RAGTAG_DIR"
+mkdir -p "${RAGTAG_DIR}"
 
 ragtag.py scaffold \
-          "$REF_FILE"\
-          "$UNICYCLER_DIR/assembly.fasta" \
+          "${REF_FILE}"\
+          "${UNICYCLER_DIR}/assembly.fasta" \
           -o ragtag
 
 ```
@@ -76,15 +74,15 @@ ragtag.py scaffold \
 
 ```shell
 
-mkdir -p "$PROKKA_DIR"
+mkdir -p "${PROKKA_DIR}"
 
-prokka --outdir "$PROKKA_DIR" --force \
-       --prefix "$SAMPLE_NAME" --addgenes \
+prokka --outdir "${PROKKA_DIR}" --force \
+       --prefix "${SAMPLE_NAME}" --addgenes \
        --kingdom "Bacteria" \
        --genus "Legionella" \
        --species "pneumophila" \
        --cpus 4 \
-       "$RAGTAG_DIR/ragtag.scaffold.fasta"
+       "${RAGTAG_DIR}/ragtag.scaffold.fasta"
 
 ```
 
@@ -92,14 +90,14 @@ prokka --outdir "$PROKKA_DIR" --force \
 
 ```shell
 
-mkdir -p "$QUAST_DIR"
+mkdir -p "${QUAST_DIR}"
 
-quast.py -o "$QUAST_DIR" \
-        "$RAGTAG_DIR/ragtag.scaffold.fasta" \
-        -r "$REF_FILE" \
-        -1 "$RAW_READS_DIR/${SAMPLE_NAME}_R1_001.fastq.gz" \
-        -2 "$RAW_READS_DIR/${SAMPLE_NAME}_R2_001.fastq.gz" \
-        -g "$PROKKA_DIR/${SAMPLE_NAME}.gff"
+quast.py -o "${QUAST_DIR}" \
+        "${RAGTAG_DIR}/ragtag.scaffold.fasta" \
+        -r "${REF_FILE}" \
+        -1 "${RAW_READS_DIR}/${SAMPLE_NAME}_R1_001.fastq.gz" \
+        -2 "${RAW_READS_DIR}/${SAMPLE_NAME}_R2_001.fastq.gz" \
+        -g "${PROKKA_DIR}/${SAMPLE_NAME}.gff"
 
 ```
 
@@ -107,15 +105,15 @@ quast.py -o "$QUAST_DIR" \
 
 ```shell
 
-mkdir -p "$CHECKM_DIR"
+mkdir -p "${CHECKM_DIR}"
 
 checkm taxonomy_wf genus Legionella \
                    --genes \
                    -t 10 \
                    -x faa \
                    --file ${BACTERIA_FOLDER}/checkm_stats_${SAMPLE_NAME}.txt \
-                   "$PROKKA_DIR" \
-                   "$CHECKM_DIR"
+                   "${PROKKA_DIR}" \
+                   "${CHECKM_DIR}"
                   
 ```
 
@@ -128,11 +126,11 @@ import pandas as pd
 
 simple_name = "R32_S257"
 
-# Ścieżki dostępu do plikóœ
-prokka_path = f"/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/short_reads/prokka/prokka_{simple_name}/{simple_name}.tsv"
-eggmaper_path = f"/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/short_reads/eggmaper/{simple_name}/eggmaper_{simple_name}.tsv"
-merged_path = f"/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/short_reads/prokkaxeggmaper/merge_{simple_name}.tsv"
-filtered_path = f"/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/short_reads/prokkaxeggmaper/allright_{simple_name}.tsv"
+# Ścieżki dostępu do plików
+prokka_path = f"/Legionella_pneumophila/short_reads/prokka/prokka_{simple_name}/{simple_name}.tsv"
+eggmaper_path = f"/Legionella_pneumophila/short_reads/eggmaper/{simple_name}/eggmaper_{simple_name}.tsv"
+merged_path = f"/Legionella_pneumophila/short_reads/prokkaxeggmaper/merge_{simple_name}.tsv"
+filtered_path = f"/Legionella_pneumophila/short_reads/prokkaxeggmaper/allright_{simple_name}.tsv"
 
 # Wczytywanie plików
 prokkatsv = pd.read_csv(prokka_path, sep='\t')
@@ -151,8 +149,6 @@ allright.to_csv(filtered_path, sep="\t", header=True, index=False)
 ```
 
 
-
-
 ## Sekwencjonowanie trzeciej generacji oparte na nanoporach
 
 ### Dane wejściowe
@@ -161,22 +157,22 @@ allright.to_csv(filtered_path, sep="\t", header=True, index=False)
 # Dane wejściowe
 conda activate bioinfo 
 
-BACTERIA_FOLDER="/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/long_reads" 
+BACTERIA_FOLDER="/Legionella_pneumophila/long_reads" 
 SAMPLE_NAME='L40'
 NAME='legionella'
 
-# Definiowanie ścieżek do folderóœ
-RAW_READS_DIR="$BACTERIA_FOLDER/raw_reads"
+# Definiowanie ścieżek do folderów
+RAW_READS_DIR="${BACTERIA_FOLDER}/raw_reads"
 
-FLYE_DIR="$BACTERIA_FOLDER/flye/flye_${SAMPLE_NAME}"
-CIRCLATOR_DIR="$BACTERIA_FOLDER/circlator/circlator_${SAMPLE_NAME}"
-BAKTA_DIR="$BACTERIA_FOLDER/bakta/bakta_${SAMPLE_NAME}.40"
-QUAST_DIR="$BACTERIA_FOLDER/quast/quast_${SAMPLE_NAME}"
-CHECKM2_DIR="$BACTERIA_FOLDER/checkm2/checkm2_${SAMPLE_NAME}"
-DNAA_DIR="$BACTERIA_FOLDER/dnaa_seq"
-BAKTA_DB="/home/oli/db"
-CHECKM_INPUT_DIR="$BACTERIA_FOLDER/checkm2/imput_checkm2/checkm_input_${SAMPLE_NAME}"
-REF_FILE="/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/short_reads/ref_genome_legionella/GCF_001941585.1_ASM194158v1_genomic.fna"
+FLYE_DIR="${BACTERIA_FOLDER}/flye/flye_${SAMPLE_NAME}"
+CIRCLATOR_DIR="${BACTERIA_FOLDER}/circlator/circlator_${SAMPLE_NAME}"
+BAKTA_DIR="${BACTERIA_FOLDER}/bakta/bakta_${SAMPLE_NAME}.40"
+QUAST_DIR="${BACTERIA_FOLDER}/quast/quast_${SAMPLE_NAME}"
+CHECKM2_DIR="${BACTERIA_FOLDER}/checkm2/checkm2_${SAMPLE_NAME}"
+DNAA_DIR="${BACTERIA_FOLDER}/dnaa_seq"
+BAKTA_DB="/db"
+CHECKM_INPUT_DIR="${BACTERIA_FOLDER}/checkm2/imput_checkm2/checkm_input_${SAMPLE_NAME}"
+REF_FILE="${BACTERIA_FOLDER}/ref_genome_legionella/GCF_001941585.1_ASM194158v1_genomic.fna"
 
 ```
 
@@ -184,10 +180,10 @@ REF_FILE="/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/shor
 
 ```shell
 
-mkdir -p "$FLYE_DIR"
+mkdir -p "${FLYE_DIR}"
 
-flye --nano-raw "$RAW_READS_DIR/${SAMPLE_NAME}.fastq.gz" \
-     --out-dir "$FLYE_DIR" \
+flye --nano-raw "${RAW_READS_DIR}/${SAMPLE_NAME}.fastq.gz" \
+     --out-dir "${FLYE_DIR}" \
      --genome-size 4m \
      --asm-coverage 70 \
      --threads 4
@@ -198,7 +194,7 @@ flye --nano-raw "$RAW_READS_DIR/${SAMPLE_NAME}.fastq.gz" \
 
 ```shell
 
-mkdir -p "$BACTERIA_FOLDER/circlator"
+mkdir -p "${BACTERIA_FOLDER}/circlator"
 
 circlator all \
     --merge_min_id 85 \
@@ -206,9 +202,9 @@ circlator all \
     --verbose \
     --data_type nanopore-raw \
     --merge_breaklen 1000 \
-    "$FLYE_DIR/assembly.fasta" \
-    "$RAW_READS_DIR/${SAMPLE_NAME}.fastq.gz" \
-    "$CIRCLATOR_DIR"
+    "${FLYE_DIR}/assembly.fasta" \
+    "${RAW_READS_DIR}/${SAMPLE_NAME}.fastq.gz" \
+    "${CIRCLATOR_DIR}"
 
 ```
 
@@ -218,14 +214,14 @@ circlator all \
 
 conda activate checkm2
 
-mkdir -p "$CHECKM2_DIR"
-mkdir -p "$CHECKM_INPUT_DIR"
+mkdir -p "${CHECKM2_DIR}"
+mkdir -p "${CHECKM_INPUT_DIR}"
 
-cp "$CIRCLATOR_DIR/06.fixstart.fasta" "$CHECKM_INPUT_DIR/${SAMPLE_NAME}.fasta"
+cp "${CIRCLATOR_DIR}/06.fixstart.fasta" "${CHECKM_INPUT_DIR}/${SAMPLE_NAME}.fasta"
 
 checkm2 predict \
-  --input "$CHECKM_INPUT_DIR/${SAMPLE_NAME}.fasta" \
-  --output-directory "$CHECKM2_DIR" \
+  --input "${CHECKM_INPUT_DIR}/${SAMPLE_NAME}.fasta" \
+  --output-directory "${CHECKM2_DIR}" \
   --threads 4 \
   --force
 
@@ -238,11 +234,11 @@ checkm2 predict \
 
 conda activate bakta-env
 
-mkdir -p "$BAKTA_DIR"
+mkdir -p "${BAKTA_DIR}"
 
-bakta --db "$BAKTA_DB" \
+bakta --db "${BAKTA_DB}" \
       --verbose \
-      --output "$BAKTA_DIR" \
+      --output "${BAKTA_DIR}" \
       --prefix legionella \
       --genus Legionella \
       --species pneumophila \
@@ -250,7 +246,7 @@ bakta --db "$BAKTA_DB" \
       --locus-tag legio \
       --threads 4 \
       --force \
-      "$CIRCLATOR_DIR/06.fixstart.fasta" 
+      "${CIRCLATOR_DIR}/06.fixstart.fasta" 
 
 ```
 
@@ -258,12 +254,12 @@ bakta --db "$BAKTA_DB" \
 
 ```shell
 
-mkdir -p "$QUAST_DIR"
+mkdir -p "${QUAST_DIR}"
 
-quast.py "$CHECKM_INPUT_DIR/${SAMPLE_NAME}.fasta" \
-  -o "$QUAST_DIR" \
-  -r "$REF_FILE" \
-  -g "$BAKTA_DIR/${NAME}.gff3" \
+quast.py "${CHECKM_INPUT_DIR}/${SAMPLE_NAME}.fasta" \
+  -o "${QUAST_DIR}" \
+  -r "${REF_FILE}" \
+  -g "${BAKTA_DIR}/${NAME}.gff3" \
   -t 4
 
 ```
@@ -279,10 +275,10 @@ import pandas as pd
 simple_name = "R32_S257"
 NAME = "legionella"
 
-# Ścieżki dostępu do plikóœ
-prokka_path = f"/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/long_reads/bakta/bakta_{simple_name}/{NAME}.tsv"
-eggmaper_path = f"/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/long_reads/eggmaper/{simple_name}/eggmaper_{simple_name}.tsv"
-merged_path = f"/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/long_reads/baktaxeggmaper/merge_{simple_name}.tsv"
+# Ścieżki dostępu do plików
+prokka_path = f"/Legionella_pneumophila/long_reads/bakta/bakta_{simple_name}/{NAME}.tsv"
+eggmaper_path = f"/Legionella_pneumophila/long_reads/eggmaper/{simple_name}/eggmaper_{simple_name}.tsv"
+merged_path = f"/Legionella_pneumophila/long_reads/baktaxeggmaper/merge_{simple_name}.tsv"
 
 # Wczytywanie plików
 prokkatsv = pd.read_csv(prokka_path, sep='\t')
@@ -346,7 +342,7 @@ import pandas as pd
 from collections import Counter
 
 # Wczytaj plik .tsv
-df = pd.read_csv("/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/long_reads/eggmaper/cog_l5.tsv", sep="\t")
+df = pd.read_csv("/Legionella_pneumophila/long_reads/eggmaper/cog_l5.tsv", sep="\t")
 
 # Usuń puste wartości 
 df = df.dropna(subset=["COG_category"])
@@ -354,7 +350,7 @@ df = df.dropna(subset=["COG_category"])
 # Rozdziel litery i zlicz wszystkie kategorie
 all_categories = []
 for entry in df["COG_category"]:
-    all_categories.extend(list(entry.strip()))  # rozdziela np. "CFG" -> ["C", "F", "G"]
+    all_categories.extend(list(entry.strip())) 
 
 # Zlicz ile wystąpień ma każda litera
 counter = Counter(all_categories)
@@ -366,7 +362,7 @@ category_counts = pd.DataFrame(counter.items(), columns=["Category", "Count"]).s
 print(category_counts)
 
 # (opcjonalnie) Zapisz do pliku
-category_counts.to_csv("/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/long_reads/eggmaper/L5_cog_Coun2.csv", index=False, sep="\t")
+category_counts.to_csv("/Legionella_pneumophila/long_reads/eggmaper/L5_cog_Coun2.csv", index=False, sep="\t")
 ```
 
 #### Tworzenie wykresu dla danych COG
@@ -378,7 +374,7 @@ import pandas as pd
 import seaborn as sns
 
 # wczytywanie danych wejściowych
-df = pd.read_csv("/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/long_reads/eggmaper/L5_cog_Coun2.csv", sep="\t")
+df = pd.read_csv("/Legionella_pneumophila/long_reads/eggmaper/L5_cog_Coun2.csv", sep="\t")
 
 # Mapowanie kategorii COG na grupy funkcjonalne
 grupa_map = {
@@ -406,14 +402,11 @@ grupa_map = {
 # Dodanie kolumny z grupą
 df['Grupa funkcjonalna'] = df['Category'].map(grupa_map)
 
-
 # Sortowanie danych
 df_sorted = df.sort_values(by=['Grupa funkcjonalna', 'Count'], ascending=[False, True])
 
-
 # Ustawienia stylu wykresu
 plt.figure(figsize=(10, 8))
-
 
 # Wykres słupkowy poziomy
 sns.barplot(
@@ -433,11 +426,11 @@ plt.legend(title='Grupa funkcyjna', bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
 
 # Zapis
-plt.savefig("/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/long_reads/eggmaper/L5_cog_wykres.png", dpi=300)
+plt.savefig("/Legionella_pneumophila/long_reads/eggmaper/L5_cog_wykres.png", dpi=300)
 plt.show()
 ```
 
-### Tworzenie heatmapy dla genów systemóœ sekrecji typu II, IVA, IVB
+### Tworzenie heatmapy dla genów systemów sekrecji typu II, IVA, IVB
 
 #### Łączenie plików w celu stworzenia heatmapy
 
@@ -447,7 +440,7 @@ import pandas as pd
 import os
 
 # Ścieżka do katalogu z plikami
-folder_path = "/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/long_reads/VFAnalyzer/sekretion_system"
+folder_path = "/Legionella_pneumophila/long_reads/VFAnalyzer/sekretion_system"
 
 # Lista nazw plików
 file_names = [
@@ -478,7 +471,7 @@ reference_df.set_index(reference_df.columns[0], inplace=True)
 combined_df[reference_df.columns[1]] = reference_df.iloc[:, 1]
 
 # Zapisz
-combined_df.to_csv("/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/long_reads/VFAnalyzer/sekretion_system/polaczone.tsv", sep="\t")
+combined_df.to_csv("/Legionella_pneumophila/long_reads/VFAnalyzer/sekretion_system/polaczone.tsv", sep="\t")
 
 ```
 
@@ -491,11 +484,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
-
 # wczytaj dane
-df = pd.read_csv("/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/short_reads/VFAnalizer/FILE/sekretion_system/polaczone.tsv", sep="\t", index_col=0)
-
-
+df = pd.read_csv("/Legionella_pneumophila/short_reads/VFAnalizer/FILE/sekretion_system/polaczone.tsv", sep="\t", index_col=0)
 
 # macierz obecności: 1 = obecność, 0 = brak ("-" lub puste)
 presence_matrix = (df.notna() & (df != "-")).astype(int)
@@ -503,8 +493,6 @@ presence_matrix = (df.notna() & (df != "-")).astype(int)
 # 0 = niebieski, 1 = różowy
 colors = ["#4A90E2", "#F78FB3"]
 cmap = sns.color_palette(colors)
-
-
 
 # rysowanie heatmapy
 plt.figure(figsize=(13, 20))
@@ -538,7 +526,7 @@ ax.legend(
 plt.tight_layout(rect=[0, 0, 0.85, 1])
 
 # zapisywanie pliku w odpowiednim folderze
-plt.savefig("/media/oli/Nowy/bioinformatyka/analiza_DNA/Legionella_pneumophila/short_reads/VFAnalizer/FILE/sekretion_system/heatmapa_short_.png", dpi=300, bbox_inches="tight")
+plt.savefig("/Legionella_pneumophila/short_reads/VFAnalizer/FILE/sekretion_system/heatmapa_short_.png", dpi=300, bbox_inches="tight")
 
 plt.show()
 
