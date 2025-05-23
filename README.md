@@ -25,6 +25,4 @@ Analiza obejmuje:
 ## Wymagania
 - Python 3.8+, zainstalowane biblioteki: `pandas`, `matplotlib`, `seaborn`, `Bio`
 
-## Wizualizacje
-Pliki `heatmap_*.png` i `completeness_plot.png` znajdują się w katalogu `schematy/`.
 
