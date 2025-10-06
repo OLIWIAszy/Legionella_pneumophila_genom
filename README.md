@@ -10,7 +10,7 @@ Analiza obejmuje:
 - **Ocena jakości genomów**
 - **Adnotacja funkcjonalna**
 - **Identyfikacja genów wirulencji i systemów sekrecji**
-- **[Wizualizacje](./analiza_skrypt/Wizualizacje_danych.md) (heatmapy [krótkich](./Wizualizacje/heatmapa_genow_short_reads.png) i [długich](./Wizualizacje/heatmapa_genow_long_reads.png) odczytów, wykresy [completeness](./Wizualizacje/porownanie_kompletnosci.png)[contamination](./Wizualizacje/porownanie_kontaminacji.png), [wykres grup funkcjonalnych COG](./Wizualizacje/L5_cog_wykres.png))**
+- **[Wizualizacje](./analiza_skrypt/Wizualizacje_danych.md) (heatmapy [krótkich](./Wizualizacje/heatmapa_genow_short_reads.png) i [długich](./Wizualizacje/heatmapa_genow_long_reads.png) odczytów, wykresy [completeness](./Wizualizacje/porownanie_kompletnosci.png) / [contamination](./Wizualizacje/porownanie_kontaminacji.png), [wykres grup funkcjonalnych COG](./Wizualizacje/L5_cog_wykres.png))**
 
 ## Narzędzia
 - `fastp`, `Filtlong`, `Nanoplot`
