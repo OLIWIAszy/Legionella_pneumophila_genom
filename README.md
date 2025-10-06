@@ -10,7 +10,7 @@ Analiza obejmuje:
 - **Ocena jakości genomów**
 - **Adnotacja funkcjonalna**
 - **Identyfikacja genów wirulencji i systemów sekrecji**
-- **Wizualizacje (heatmapy, wykresy completeness/contamination, wykres grup funkcjonalnych COG)**
+- **[Wizualizacje](./Wizualizacje/) (heatmapy, wykresy completeness/contamination, wykres grup funkcjonalnych COG)**
 
 ## Narzędzia
 - `fastp`, `Filtlong`, `Nanoplot`
