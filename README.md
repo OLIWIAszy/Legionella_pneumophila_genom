@@ -1,7 +1,7 @@
 # Analiza genomu *Legionella pneumophila*
 
 ## Opis analizy
-Celem analizy jest porównanie wyników sekwencjonowania wysokoprzepustowego, drugiej (Illumina) i trzeiej (Oxford Nanopore) generacji dla genomów *L. pneumophila*
+Celem analizy jest porównanie wyników sekwencjonowania wysokoprzepustowego, drugiej (Illumina) i trzeiej (Oxford Nanopore) generacji dla genomów *L. pneumophila*. Analizy wykonane były przy użyciu [skryptu](./analiza_kod.md)
 
 Analiza obejmuje:
 
