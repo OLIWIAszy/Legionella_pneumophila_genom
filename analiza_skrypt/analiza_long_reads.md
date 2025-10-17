@@ -1,5 +1,5 @@
 # Legionella_pneumophila_genom
-Analiza genomu bakterii Legionella pneumophila, po sekwencjonowaniu wysokoprzepustowym trzeciej generacji opartym na nanoporach.
+Analiza genomu bakterii *Legionella pneumophila*, po sekwencjonowaniu wysokoprzepustowym trzeciej generacji opartym na nanoporach.
 
 
 ### Dane wejściowe
@@ -118,7 +118,7 @@ quast.py "${CHECKM_INPUT_DIR}/${SAMPLE_NAME}.fasta" \
 ### Eggnog-mapper funkcjonalna adnotacja sekwencji genomowych
 #### http://eggnog-mapper.embl.de/ i użycie pliku z Bakta .faa
 
-### Łączenie plików eggmaster i prokka files w jedną adnotację genomu
+### Łączenie plików eggmapper i prokka files w jedną adnotację genomu
 ```python
 
 import pandas as pd
