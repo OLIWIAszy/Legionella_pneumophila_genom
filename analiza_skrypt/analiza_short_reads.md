@@ -1,5 +1,5 @@
 # Legionella_pneumophila_genom
-Analiza genomu bakterii Legionella pneumophila, po sekwencjonowaniu wysokoprzepustowym NGS na platformie Illumina.
+Analiza genomu bakterii *Legionella pneumophila*, po sekwencjonowaniu wysokoprzepustowym NGS na platformie Illumina.
 
 ### Dane wejściowe 
 
@@ -117,7 +117,7 @@ checkm taxonomy_wf genus Legionella \
 ### Eggnog-mapper funkcjonalna adnotacja sekwencji genomowych
 #### http://eggnog-mapper.embl.de/ i użycie pliku z Prokka .faa
 
-### Łączenie plików eggmaster i prokka files w jedną adnotację genomu
+### Łączenie plików eggmapper i prokka files w jedną adnotację genomu
 ```python
 import pandas as pd
 
