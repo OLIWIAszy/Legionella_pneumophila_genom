@@ -1,5 +1,5 @@
 # Legionella_pneumophila_genom 
-Wizualizacja danych genomu bakterii Legionella pneumophila, po sekwencjonowaniu wysokoprzepustowym.
+Wizualizacja danych genomu bakterii *Legionella pneumophila*, po sekwencjonowaniu wysokoprzepustowym.
 
 
 ### Tworzenie boxplota w celu porównania kompletności oraz kontaminacji genomów powstałych w wyniku sekwencjonowania drugiej i trzeciej generacji
